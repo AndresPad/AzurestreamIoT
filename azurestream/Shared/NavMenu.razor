@@ -1,75 +1,52 @@
 ﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href=""><img src="images/logos/iot.svg" alt="FTA IOT Engineering" class="logo-blue" width="100" /></a>
+    <a class="navbar-brand" href=""><img src="images/logos/iotdashboard.svg" alt="FTA IOT Engineering" class="logo-blue" width="225" /></a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
-		<i class="tim-icons icon-align-center visible-on-sidebar-regular"></i>
+        <i class="tim-icons icon-align-center visible-on-sidebar-regular"></i>
         <i class="tim-icons icon-bullet-list-67 visible-on-sidebar-mini"></i>
     </button>
 </div>
 
 <div class="sidebar-menu">
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-	<ul class="nav flex-column">
-		<li class="nav-item px-3">
-			<img src="images/icons/dataicon.svg" alt="FTA IOT Engineering" style="width:30px;padding-right:10px;" /> IOT Console
-			<hr />
-		</li>
-		<li class="nav-item px-3">
-			<NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-				<i class="tim-icons icon-chart-pie-36"></i><span class="oi oi-home" aria-hidden="true"></span> Home
-			</NavLink>
-		</li>
-		<li class="nav-item px-3">
-			<NavLink class="nav-link" href="fetchdata">
-				<i class="tim-icons icon-sound-wave"></i> <span class="oi oi-list-rich" aria-hidden="true"></span> Telemetry
-			</NavLink>
-		</li>
-		<li class="nav-item px-3">
-			<NavLink class="nav-link" href="quicklinks">
-				<i class="tim-icons icon-spaceship"></i> <span class="oi oi-plus" aria-hidden="true"></span> Quick Links
-			</NavLink>
-		</li>
-		<li class="nav-item px-3">
-			<NavLink class="nav-link" href="fetchdata">
-				<i class="tim-icons icon-components"></i> <span class="oi oi-plus" aria-hidden="true"></span> Weather Data
-			</NavLink>
-		</li>
-		<li class="nav-item px-3">
-			<NavLink class="nav-link" href="counter">
-				<i class="tim-icons icon-globe-2"></i> <span class="oi oi-plus" aria-hidden="true"></span> Counter
-			</NavLink>
-		</li>
-		<li class="nav-item px-3">
-			<NavLink class="nav-link" href="fetchdata">
-				<i class="tim-icons icon-sound-wave"></i> <span class="oi oi-list-rich" aria-hidden="true"></span> Weather Data
-			</NavLink>
-		</li>
-		<li class="nav-item px-3">
-			<NavLink class="nav-link" href="Dashboard">
-				<i class="tim-icons icon-chart-pie-36"></i> <span class="oi oi-list-rich" aria-hidden="true"></span> Dashboard
-			</NavLink>
-		</li>
-		<li class="nav-item px-3">
-			<NavLink class="nav-link" href="Accounts">
-				<i class="tim-icons icon-molecule-40"></i> <span class="oi oi-list-rich" aria-hidden="true"></span> Accounts
-			</NavLink>
-		</li>
-		<li class="nav-item px-3">
-			<NavLink class="nav-link" href="Owners">
-				<i class="tim-icons icon-single-02"></i> <span class="oi oi-list-rich" aria-hidden="true"></span> Owners
-			</NavLink>
-		</li>
-		<li class="nav-item px-3">
-			<NavLink class="nav-link" href="Cosmos">
-				<i class="tim-icons icon-planet"></i> <span class="oi oi-list-rich" aria-hidden="true"></span> Cosmos
-			</NavLink>
-		</li>
-		<li class="nav-item px-3">
-			<NavLink class="nav-link" href="PowerBI">
-				<i class="tim-icons icon-chart-bar-32"></i> <span class="oi oi-list-rich" aria-hidden="true"></span> PowerBI
-			</NavLink>
-		</li>
-	</ul>
-</div>
+    <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+        <nav class="flex-column">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <i class="tim-icons icon-chart-pie-36"></i><span class="oi" aria-hidden="true"></span> Home
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="events">
+                    <i class="tim-icons icon-sound-wave"></i> <span class="oi" aria-hidden="true"></span> IoT Hub Events
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="counter">
+                    <i class="tim-icons icon-spaceship"></i> <span class="oi" aria-hidden="true"></span> Counter
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="fetchdata">
+                    <i class="tim-icons icon-planet"></i> <span class="oi" aria-hidden="true"></span> Weather Data
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="Accounts">
+                    <i class="tim-icons icon-molecule-40"></i> <span class="oi" aria-hidden="true"></span> Accounts
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="Owners">
+                    <i class="tim-icons icon-single-02"></i> <span class="oi" aria-hidden="true"></span> Owners
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="Reports">
+                    <i class="tim-icons icon-chart-bar-32"></i> <span class="oi" aria-hidden="true"></span> Reports
+                </NavLink>
+            </div>
+        </nav>
+    </div>
 </div>
 
 @code {

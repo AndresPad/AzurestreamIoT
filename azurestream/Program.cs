@@ -1,13 +1,10 @@
+using Azure.Identity;
 using azurestream.Data;
-using Microsoft.AspNetCore.Authentication;
+using azurestream.Events;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
-using Azure.Identity;
+using Microsoft.Extensions.Azure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,8 +26,15 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
+builder.Services.AddSingleton<IEventReaderService, EventReaderService>();
+builder.Services.AddAzureClients(clientBuilder =>
+{
+    clientBuilder.AddBlobServiceClient(builder.Configuration["Iot:IotHub:blob"], preferMsi: true);
+    clientBuilder.AddQueueServiceClient(builder.Configuration["Iot:IotHub:queue"], preferMsi: true);
+});
 
 var app = builder.Build();
 
