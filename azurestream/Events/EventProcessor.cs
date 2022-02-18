@@ -2,6 +2,7 @@
 using Azure.Messaging.EventHubs.Consumer;
 using Azure.Messaging.EventHubs.Processor;
 using Azure.Storage.Blobs;
+using azurestream.WebSite;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Net.Sockets;
@@ -10,30 +11,13 @@ namespace azurestream.Events
 {
     public class EventProcessor : IObservable<Event>, IObservable<EventProcessorInfo>, IAsyncDisposable
     {
-        private class Unsubscriber<T> : IDisposable
-        {
-            private List<IObserver<T>> _observers;
-            private IObserver<T> _observer;
-
-            public Unsubscriber(List<IObserver<T>> observers, IObserver<T> observer)
-            {
-                this._observers = observers;
-                this._observer = observer;
-            }
-
-            public void Dispose()
-            {
-                if (!(_observer == null)) _observers.Remove(_observer);
-            }
-        }
-
         private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1);
 
         private readonly TimeSpan _maxWaitTime = TimeSpan.FromSeconds(30);
         private readonly int EventProcessorCreationMaximumRetries = 5;
         private readonly TimeSpan EventProcessorCreationRetryDelay = TimeSpan.FromSeconds(30);
         private int EventProcessorCreationRetryCount = 0;
-
+        
         private readonly string _iotHubConnectionString = string.Empty;
         private readonly BlobContainerClient _checkpointStore;
         private readonly string _consumerGroup = string.Empty;
@@ -46,12 +30,12 @@ namespace azurestream.Events
         private ConcurrentDictionary<string, int> _partitionTracking = new ConcurrentDictionary<string, int>();
         private List<IObserver<Event>> _eventObservers = new List<IObserver<Event>>();
         private List<IObserver<EventProcessorInfo>> _processorInfoObservers = new List<IObserver<EventProcessorInfo>>();
+        
 
-
-        public EventProcessor(string iotHubConnectionString,
-            string checkpointStoreConnectionString,
+        public EventProcessor(string iotHubConnectionString, 
+            string checkpointStoreConnectionString, 
             CancellationTokenSource cancellationTokenSource,
-            string consumerGroup = EventHubConsumerClient.DefaultConsumerGroupName,
+            string consumerGroup = EventHubConsumerClient.DefaultConsumerGroupName, 
             string checkpointContainer = "iot-hub-consumer-web-checkpointing")
         {
 
@@ -124,7 +108,7 @@ namespace azurestream.Events
                 {
                     _lastEventReceivedTimeStamp = DateTime.UtcNow;
                     Event newEvent = new Event(args.Data);
-
+                    
                     await Checkpoint(args);
 
                     BroadcastEvent(newEvent);
@@ -143,10 +127,10 @@ namespace azurestream.Events
                 }
                 _consecutiveErrorsHandlingEvents = 0; //We succeedded processing the event, reset the consecutive errors counter.
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 _consecutiveErrorsHandlingEvents++;
-                if (_consecutiveErrorsHandlingEvents < 100)
+                if(_consecutiveErrorsHandlingEvents < 100)
                 {
                     BroadcastProcessorInfo(new EventProcessorInfo()
                     {
@@ -208,7 +192,7 @@ namespace azurestream.Events
                 }
 
                 //Network Connection Lost -> Consider not recoverable retry from UI, directly cancel
-                if (args.Exception is SocketException)
+                if(args.Exception is SocketException)
                 {
                     BroadcastProcessorInfo(new EventProcessorInfo()
                     {
@@ -245,7 +229,7 @@ namespace azurestream.Events
                                 Type = ProcessorInfoType.Error,
                                 Exception = args.Exception
                             });
-
+                            
                             _eventProcessorClient = await CreateEventProcessorClientAsync(_iotHubConnectionString, _consumerGroup, _checkpointStore);
 
                             await _eventProcessorClient.StartProcessingAsync(_cancellationSource.Token);
@@ -261,7 +245,7 @@ namespace azurestream.Events
                             });
                         }
                     }
-                    catch (Exception ex)
+                    catch(Exception ex)
                     {
                         BroadcastProcessorInfo(new EventProcessorInfo()
                         {
@@ -283,7 +267,7 @@ namespace azurestream.Events
                     await _eventProcessorClient.StartProcessingAsync(_cancellationSource.Token);
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 BroadcastProcessorInfo(new EventProcessorInfo()
                 {
@@ -314,7 +298,7 @@ namespace azurestream.Events
 
                 BroadcastProcessorInfo(new EventProcessorInfo()
                 {
-                    Description = $"Partition with Id={ args.PartitionId } is initializing. Starting processing new events from { startPositionWhenNoCheckpoint }.",
+                    Description = $"Partition with Id={ args.PartitionId } is initializing. Starting processing new events from { startPositionWhenNoCheckpoint }.", 
                     Timestamp = DateTime.UtcNow,
                     Type = ProcessorInfoType.Information
                 });
@@ -355,7 +339,7 @@ namespace azurestream.Events
                     Type = ProcessorInfoType.Information
                 });
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 BroadcastProcessorInfo(new EventProcessorInfo()
                 {

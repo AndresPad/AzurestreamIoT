@@ -3,7 +3,7 @@ using azurestream.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 
-namespace BethanysPieShopHRM.App.Pages
+namespace azurestream.Pages
 {
     public partial class EmployeeOverviewVirtual
     {
@@ -13,7 +13,7 @@ namespace BethanysPieShopHRM.App.Pages
 
         private float itemHeight = 50;
 
-        protected async override Task OnInitializedAsync()
+        protected async Task OnInitializedAsync()
         {
             Employees = (await EmployeeDataService.GetLongEmployeeList()).ToList();
         }

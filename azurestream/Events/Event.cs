@@ -1,4 +1,5 @@
 ﻿using Azure.Messaging.EventHubs;
+using System.Runtime.InteropServices;
 
 namespace azurestream.Events
 {
@@ -13,7 +14,7 @@ namespace azurestream.Events
         public string? AuthMethod { get; set; } = null;
         public string? MessageSource { get; set; } = null;
         public string? DataSchema { get; set; } = null;
-        public string? Subject { get; set; } = null;
+        public string? Component { get; set; } = null;
         public long? SequenceNumber { get; set; } = null;
         public long? Offset { get; set; } = null;
 
@@ -50,8 +51,8 @@ namespace azurestream.Events
                     eventData.SystemProperties.TryGetValue("dt-dataschema", out var dataSchema);
                     DataSchema = dataSchema?.ToString();
 
-                    eventData.SystemProperties.TryGetValue("dt-subject", out var subject);
-                    Subject = subject?.ToString();
+                    eventData.SystemProperties.TryGetValue("dt-subject", out var component);
+                    Component = component?.ToString();
 
                     eventData.SystemProperties.TryGetValue("iothub-connection-auth-method", out var authMethod);
                     AuthMethod = authMethod?.ToString();

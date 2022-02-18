@@ -87,8 +87,8 @@ namespace azurestream.Pages
                     await stream.CopyToAsync(ms);
                     stream.Close();
 
-                    Employee.ImageName = file.Name;
-                    Employee.ImageContent = ms.ToArray();
+                    //Employee.ImageName = file.Name;
+                    //Employee.ImageContent = ms.ToArray();
                 }
                 var addedEmployee = await EmployeeDataService.AddEmployee(Employee);
                 if (addedEmployee != null)

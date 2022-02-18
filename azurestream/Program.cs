@@ -1,5 +1,6 @@
 using Azure.Identity;
 using azurestream.Data;
+using azurestream.Devices;
 using azurestream.Events;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
@@ -30,6 +31,7 @@ builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
 builder.Services.AddSingleton<IEventReaderService, EventReaderService>();
+builder.Services.AddSingleton<IDeviceService, DeviceService>();
 builder.Services.AddAzureClients(clientBuilder =>
 {
     clientBuilder.AddBlobServiceClient(builder.Configuration["Iot:IotHub:blob"], preferMsi: true);

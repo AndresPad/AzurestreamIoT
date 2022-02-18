@@ -2,7 +2,7 @@
 using azurestream.Services;
 using Microsoft.AspNetCore.Components;
 
-namespace BethanysPieShopHRM.App.Pages
+namespace azurestream.Pages
 {
     public partial class EmployeeDetail
     {
@@ -20,7 +20,7 @@ namespace BethanysPieShopHRM.App.Pages
             Employee = await EmployeeDataService.GetEmployeeDetails(int.Parse(EmployeeId));
             MapMarkers = new List<Marker>
             {
-                new Marker{Description = $"{Employee.FirstName} {Employee.LastName}",  ShowPopup = false, X = Employee.Longitude, Y = Employee.Latitude}
+                new Marker{Description = $"{Employee.FirstName} {Employee.LastName}",  ShowPopup = false, X = (double)Employee.Longitude, Y = (double)Employee.Latitude}
             };
         }
 
